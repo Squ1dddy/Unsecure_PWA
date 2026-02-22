@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="script-src http://*;" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="CSS/style.css" />
+    <title>The Unsecure PWA</title>
+    <link rel="icon" type="image/x-icon" href="" id="favicon-link" />
+    <meta name="theme-color" content="#14E6DD" />
+  </head>
+  <body>
+    <style>
+      iframe {
+        border: 0px;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+    <iframe src="" id="myFrame"></iframe>
+    <script>
+      // Detect the correct Flask app URL for different environments
+      let baseUrl = "";
+
+      if (window.location.hostname.includes("app.github.dev")) {
+        // Codespaces environment with app.github.dev format
+        // Example: miniature-spork-pj7p6g4rjgg37pwv-5500.app.github.dev -> miniature-spork-pj7p6g4rjgg37pwv-5000.app.github.dev
+        baseUrl =
+          window.location.protocol +
+          "//" +
+          window.location.hostname.replace("-5500", "-5000");
+      } else if (
+        window.location.hostname.includes("github.dev") ||
+        window.location.hostname.includes("githubpreview.dev")
+      ) {
+        // Other Codespaces URL formats
+        baseUrl =
+          window.location.protocol +
+          "//" +
+          window.location.hostname.replace("5500", "5000");
+      } else {
+        // Local environment
+        baseUrl = "http://127.0.0.1:5000";
+      }
+
+      // Set the iframe source and favicon dynamically
+      document.getElementById("myFrame").src = baseUrl;
+      document.getElementById("favicon-link").href =
+        baseUrl + "/static/images/favicon.png";
+
+      setTimeout(intercept, 10000);
+      function intercept() {
+        let iframe = document.getElementById("myFrame");
+        try {
+          let theirUsername =
+            iframe.contentWindow.document.getElementById("username").value;
+          console.log("Intercepted username: " + theirUsername);
+        } catch (error) {
+          console.log(
+            "Cross-frame access blocked by browser security: " + error.message
+          );
+        }
+        setTimeout(intercept, 10000);
+      }
+    </script>
+  </body>
+</html>
