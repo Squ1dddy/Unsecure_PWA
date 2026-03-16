@@ -15,9 +15,6 @@ CORS(app)
 
 @app.route("/success.html", methods=["POST", "GET", "PUT", "PATCH", "DELETE"])
 def addFeedback():
-    if request.method == "GET" and request.args.get("url"):
-        url = request.args.get("url", "")
-        return redirect(url, code=302)
     if request.method == "POST":
         feedback = request.form["feedback"]
         dbHandler.insertFeedback(feedback)
