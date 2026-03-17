@@ -4,13 +4,21 @@ from flask import request
 from flask import redirect
 from flask_cors import CORS
 import user_management as dbHandler
+from flask_wtf import CSRFProtect
+import os
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 # Code snippet for logging a message
 # app.logger.critical("message")
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.urandom(32)
+csrf = CSRFProtect(app)
 # Enable CORS to allow cross-origin requests (needed for CSRF demo in Codespaces)
 CORS(app)
+# LIMITER
+limiter = Limiter(get_remote_address, app=app, default_limits=[])
 
 
 @app.route("/success.html", methods=["POST", "GET", "PUT", "PATCH", "DELETE"])
@@ -42,6 +50,7 @@ def signup():
 
 @app.route("/index.html", methods=["POST", "GET", "PUT", "PATCH", "DELETE"])
 @app.route("/", methods=["POST", "GET"])
+@limiter.limit("5 per minute")
 def home():
     # Simple Dynamic menu
     if request.method == "GET" and request.args.get("url"):

@@ -2,11 +2,12 @@
 {% block content %}
 <h1>Signup Form</h1>
 <form action="/signup.html" method="POST" class="box">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="input__wrapper">
         <input type="text" name="username" placeholder="Username" class="input__field">
     </div>            
     <div class="input__wrapper">
-        <input type="password" name="password" placeholder="Password" class="input__field">
+        <input type="password" name="password" placeholder="Password" class="input__field" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and include an uppercase letter, lowercase letter, and a number" required>
     </div>
     <div class="input__wrapper">
         <input type="dateOfBirth" name="dob" placeholder="Date of Birth" class="input__field">

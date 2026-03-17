@@ -2,7 +2,7 @@ import sqlite3 as sql
 import time
 import random
 import bcrypt
-
+import html
 
 def insertUser(username, password, DoB):
     con = sql.connect("database_files/database.db")
@@ -44,7 +44,7 @@ def retrieveUsers(username, password):
         with open("visitor_log.txt", "w") as file:
             file.write(str(number))
         # Simulate response time of heavy app for testing purposes
-        time.sleep(random.randint(80, 90) / 1000)
+        time.sleep(random.randint(50, 200) / 1000)
         con.close()
         return password_matches
 
@@ -65,6 +65,6 @@ def listFeedback():
     f = open("templates/partials/success_feedback.html", "w")
     for row in data:
         f.write("<p>\n")
-        f.write(f"{row[1]}\n")
+        f.write(f"{html.escape(row[1])}\n")
         f.write("</p>\n")
     f.close()
