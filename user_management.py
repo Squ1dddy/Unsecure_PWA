@@ -3,6 +3,7 @@ import time
 import random
 import bcrypt
 import html
+from markupsafe import escape
 
 def insertUser(username, password, DoB):
     con = sql.connect("database_files/database.db")
@@ -52,7 +53,8 @@ def retrieveUsers(username, password):
 def insertFeedback(feedback):
     con = sql.connect("database_files/database.db")
     cur = con.cursor()
-    cur.execute(f"INSERT INTO feedback (feedback) VALUES ('{feedback}')")
+    sanitised_feedback = escape(feedback)
+    cur.execute("INSERT INTO feedback (feedback) VALUES (?)", (sanitised_feedback,))
     con.commit()
     con.close()
 
