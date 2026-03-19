@@ -2,6 +2,7 @@
 {% block content %}
 <h1>Welcome {{ value }}!</h1>
 <form action="/success.html" method="post" class="box">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="input__wrapper">
     <input style="height:100px;vertical-align:top" type="text" name="feedback" id="feedback" placeholder="Enter your feedback here" class="input__field" required/>
   </div>
