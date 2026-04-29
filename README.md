@@ -119,7 +119,7 @@ learning and assessment exercise, not a production hardening effort.
 
 ## Report
 
-The full security assessment report is available in this repository. It covers each
+The full security assessment report is available in [this repository](https://github.com/Squ1dddy/Unsecure_PWA/blob/main/SECURITY%20FUNDAMENTALS%20AND%20ASSESSMENT%20REPORT%20BEAU%20-%20SW%20AT2.pdf). It covers each. It covers each
 vulnerability in detail including business risk, technical description, identification
 method, and fix with code evidence. It also covers broader concepts including
 cryptography, sandboxing, security by design, privacy by design, and defensive data
